@@ -1,7 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require('dotenv').config();
-const { getAllProducts } = require("./controller/ProductController");
+const {
+    getAllProducts,
+    createProduct,
+    deleteProduct,
+    getProductById,
+    updateProduct
+ } = require("./controller/ProductController");
+const { update } = require("./models/Products");
 
 const mongoDB = process.env.MONGO_DB;
 const app = express();
@@ -24,7 +31,8 @@ mongoose.connect(mongoDB, {
     }
 });
 
-router.route("/").get(getAllProducts);
+router.route("/").get(getAllProducts).post(createProduct);
+router.route("/:id").get(getProductById).put(updateProduct).delete(deleteProduct);
 
 app.use("/api/products", router);
 
