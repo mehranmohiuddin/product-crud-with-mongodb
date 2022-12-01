@@ -13,12 +13,9 @@ const { update } = require("./models/Products");
 const mongoDB = process.env.MONGO_DB;
 const app = express();
 const router = express.Router();
+const port = process.env.PORT || 3001
 
 app.use(express.json());
-
-app.listen(3001, () => {
-    console.log("Server is running on port 3001");
-});
 
 mongoose.connect(mongoDB, {
     useNewUrlParser: true,
@@ -35,5 +32,9 @@ router.route("/").get(getAllProducts).post(createProduct);
 router.route("/:id").get(getProductById).put(updateProduct).delete(deleteProduct);
 
 app.use("/api/products", router);
+
+app.listen(port, () => {
+    console.log("Server is running on port", port);
+});
 
 module.exports = app;
